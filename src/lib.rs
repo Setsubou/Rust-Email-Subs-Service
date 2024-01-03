@@ -5,12 +5,12 @@ use actix_web::dev::Server;
 
 #[get("/")]
 async fn greet() -> impl Responder {
-    return HttpResponse::Ok().body("Hello World! I'm alive and well");
+    HttpResponse::Ok().body("Hello World! I'm alive and well")
 }
 
 #[get("/health_check")]
 async fn health_check() -> impl Responder {
-    return HttpResponse::Ok();
+    HttpResponse::Ok()
 }
 
 pub fn run(listener: TcpListener) -> Result<Server, std::io::Error> {
@@ -21,5 +21,5 @@ pub fn run(listener: TcpListener) -> Result<Server, std::io::Error> {
     })
     .listen(listener)?
     .run();
-    return Ok(server);
+    Ok(server)
 }

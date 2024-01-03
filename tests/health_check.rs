@@ -28,5 +28,5 @@ fn spawn_app() -> String {
     let _ = tokio::spawn(server);
 
     //Return the final address of the server
-    return format!("http://127.0.0.1:{}", port);
+    format!("http://127.0.0.1:{}", port)
 }
