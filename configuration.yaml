@@ -1,3 +1,7 @@
+# Make sure DB Port is not in conflict
+# Spent hours trying to make it work before realizing
+# the port was already taken :(
+  
 application_port: 0
 database:
   host: "127.0.0.1"
