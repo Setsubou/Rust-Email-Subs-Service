@@ -1,0 +1,11 @@
+# Make sure DB Port is not in conflict
+# Spent hours trying to make it work before realizing
+# the port was already taken by other instance of postgres :(
+  
+application_port: 0
+database:
+  host: "localhost"
+  port: 5432
+  username: "postgres"
+  password: "password"
+  database_name : "newsletter"
