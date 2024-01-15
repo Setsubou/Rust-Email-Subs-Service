@@ -14,10 +14,17 @@ pub struct DatabaseSettings {
 }
 
 impl DatabaseSettings {
-    pub fn connection_string(&self) -> String {
+    pub fn get_connection_string(&self) -> String {
         format!(
             "postgresql://{}:{}@{}:{}/{}",
             self.username, self.password, self.host, self.port, self.database_name
+        )
+    }
+
+    pub fn get_connection_string_without_db(&self) -> String {
+        format!(
+            "postgresql://{}:{}@{}:{}",
+            self.username, self.password, self.host, self.port
         )
     }
 }
@@ -31,4 +38,4 @@ pub fn get_configuration() -> Result<Settings, config::ConfigError> {
 
     //Try to convert the configuration into our Settings type
     settings.try_into()
-}   
+}

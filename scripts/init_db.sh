@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Script to initialize Postgres database on Docker. Uses SQLX for migrations.
 set -x
 set -eo pipefail
 
@@ -26,7 +27,7 @@ DB_USER=${POSTGRES_USER:=postgres}
 DB_PASSWORD="${POSTGRES_PASSWORD:=password}"
 #Check if custom database name has been set, otherwise default to 'newsletter'
 DB_NAME="${POSTGRES_DB:=newsletter}"
-#Check if a custom port has been set, otherwise default to '5432'
+#Check if a custom port has been set, otherwise default to '5432', used for port forwarding in Docker.
 DB_PORT="${POSTGRES_PORT:=5432}"
 
 # Allow to skip docker if Postgres database is already running on docker

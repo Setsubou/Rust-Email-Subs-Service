@@ -1,4 +1,4 @@
-use actix_web::{Responder, HttpResponse, get};
+use actix_web::{get, HttpResponse, Responder};
 
 #[get("/")]
 async fn greet() -> impl Responder {
@@ -9,4 +9,3 @@ async fn greet() -> impl Responder {
 async fn health_check() -> impl Responder {
     HttpResponse::Ok()
 }
-
