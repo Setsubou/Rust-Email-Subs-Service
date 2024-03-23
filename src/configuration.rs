@@ -19,14 +19,21 @@ impl DatabaseSettings {
     pub fn get_connection_string(&self) -> Secret<String> {
         Secret::new(format!(
             "postgresql://{}:{}@{}:{}/{}",
-            self.username, self.password.expose_secret(), self.host, self.port, self.database_name
+            self.username,
+            self.password.expose_secret(),
+            self.host,
+            self.port,
+            self.database_name
         ))
     }
 
     pub fn get_connection_string_without_db(&self) -> Secret<String> {
         Secret::new(format!(
             "postgresql://{}:{}@{}:{}",
-            self.username, self.password.expose_secret(), self.host, self.port
+            self.username,
+            self.password.expose_secret(),
+            self.host,
+            self.port
         ))
     }
 }
