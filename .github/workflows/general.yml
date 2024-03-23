@@ -47,7 +47,9 @@ jobs:
           sudo apt-get install libpq-dev -y
           SKIP_DOCKER=true ./scripts/init_db.sh
       - name: Run tests
-        run: cargo test
+        run: 
+          DATABASE_URL=postgres://postgres:password@localhost:5432/postgres
+          cargo test
 
   fmt:
     name: Rustfmt
