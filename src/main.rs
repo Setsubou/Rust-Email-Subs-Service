@@ -15,7 +15,7 @@ async fn main() -> std::io::Result<()> {
     let configuration = get_configuration().expect("Failed to read configuration");
 
     let connection = PgPool::connect(
-        &configuration
+        configuration
             .database
             .get_connection_string()
             .expose_secret(),
