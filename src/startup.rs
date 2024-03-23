@@ -1,4 +1,5 @@
-use actix_web::{dev::Server, middleware::Logger, web, App, HttpServer};
+use actix_web::{dev::Server, web, App, HttpServer};
+use tracing_actix_web::TracingLogger;
 use sqlx::PgPool;
 use std::net::TcpListener;
 
@@ -10,7 +11,7 @@ pub fn run(listener: TcpListener, connection: PgPool) -> Result<Server, std::io:
 
     let server = HttpServer::new(move || {
         App::new()
-            .wrap(Logger::default())
+            .wrap(TracingLogger::default())
             .service(greet)
             .service(health_check)
             .service(subscriptions)
