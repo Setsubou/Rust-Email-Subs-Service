@@ -1,11 +1,12 @@
+use once_cell::sync::Lazy;
 use secrecy::ExposeSecret;
 use sqlx::{Connection, Executor, PgConnection, PgPool};
-use once_cell::sync::Lazy;
 use std::net::TcpListener;
 use uuid::Uuid;
 use zero2prod::{
     configuration::{get_configuration, DatabaseSettings},
-    startup::run, telemetry::{get_subscriber, init_subscriber},
+    startup::run,
+    telemetry::{get_subscriber, init_subscriber},
 };
 
 static TRACING: Lazy<()> = Lazy::new(|| {
@@ -52,9 +53,10 @@ async fn spawn_app() -> TestApp {
 
 pub async fn configure_test_database(config: &DatabaseSettings) -> PgPool {
     //Create database
-    let mut connection = PgConnection::connect(&config.get_connection_string_without_db().expose_secret())
-        .await
-        .expect("Failed to connect to Postgres");
+    let mut connection =
+        PgConnection::connect(&config.get_connection_string_without_db().expose_secret())
+            .await
+            .expect("Failed to connect to Postgres");
 
     connection
         .execute(format!(r#"CREATE DATABASE "{}";"#, config.database_name).as_str())
