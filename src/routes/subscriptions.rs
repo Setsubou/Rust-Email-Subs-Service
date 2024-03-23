@@ -9,19 +9,28 @@ struct FormData {
     name: String,
 }
 
+#[tracing::instrument(
+    name = "Adding a new subscriber",
+    skip(form, connection),
+    fields(
+        subsriber_email = %form.email,
+        subscriber_name = %form.name
+    )
+)]
 #[post("/subscriptions")]
 async fn subscriptions(form: web::Form<FormData>, connection: web::Data<PgPool>) -> impl Responder {
-    //Generate a random request ID for each request
-    let request_id = Uuid::new_v4();
-    tracing::info!(
-        "request id {} - Received request to save new subscriber, {} - {}",
-        request_id,
-        form.email,
-        form.name
-    );
+    match insert_subscriber(&connection, &form).await {
+        Ok(_) => HttpResponse::Ok().finish(),
+        Err(_) => HttpResponse::InternalServerError().finish(),
+    }
+}
 
-    // Execute Query and match its results
-    match sqlx::query!(
+#[tracing::instrument(
+    name = "Saving new subscriber into database"
+    skip(form, connection)
+)]
+async fn insert_subscriber(connection: &PgPool, form: &FormData) -> Result<(), sqlx::Error> {
+    sqlx::query!(
         r#"
         INSERT INTO subscriptions (id, email, name, subscribed_at)
         VALUES ($1, $2, $3, $4)
@@ -31,23 +40,12 @@ async fn subscriptions(form: web::Form<FormData>, connection: web::Data<PgPool>)
         form.name,
         Utc::now()
     )
-    .execute(connection.get_ref())
+    .execute(connection)
     .await
-    {
-        Ok(_) => {
-            tracing::info!(
-                "request id {} - New subscriber details have been saved",
-                request_id
-            );
-            HttpResponse::Ok()
-        }
-        Err(error) => {
-            tracing::error!(
-                "request id {} - Failed to execute query: {:?}",
-                request_id,
-                error
-            );
-            HttpResponse::InternalServerError()
-        }
-    }
+    .map_err(|e| {
+        tracing::error!("Failed to execute query: {:?}", e);
+        e
+    })?;
+
+    Ok(())
 }
