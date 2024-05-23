@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 # Script to initialize Postgres database on Docker. Uses SQLX for migrations.
+# Make sure to run this script from project root directory as sqlx requires it to be run in the root directory.
 set -x
 set -eo pipefail
 
 if ! [ -x "$(command -v sqlx)" ]; then
     echo >&2 "Error: sqlx is not installed"
     echo >&2 "Use:"
-    echo >&2 "  cargo install --version=0.5.7 sqlx-cli --no-default-features --features postgres"
+    echo >&2 "  cargo install --version=0.7.4 sqlx-cli --no-default-features --features rsutls,postgres"
     echo >&2 "to install it."
     exit 1
 fi
