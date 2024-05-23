@@ -55,7 +55,7 @@ jobs:
         run: |
           cargo sqlx prepare --workspace --check
       - name: Run tests
-        run: cargo test
+        run: SQLX_OFFLINE=true cargo test
 
   fmt:
     name: Rustfmt
