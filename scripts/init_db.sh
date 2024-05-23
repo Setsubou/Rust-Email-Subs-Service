@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Script to initialize Postgres database on Docker. Uses SQLX for migrations.
+# Make sure to run this script from project root directory as sqlx requires it to be run in the root directory.
 set -x
 set -eo pipefail
 
