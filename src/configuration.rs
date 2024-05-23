@@ -92,7 +92,9 @@ pub fn get_configuration() -> Result<Settings, config::ConfigError> {
 
     //Read config file
     settings.merge(config::File::from(configuration_directory.join("base")).required(true))?;
-    settings.merge(config::File::from(configuration_directory.join(environment.as_str())).required(true))?;
+    settings.merge(
+        config::File::from(configuration_directory.join(environment.as_str())).required(true),
+    )?;
 
     settings.try_into()
 }
